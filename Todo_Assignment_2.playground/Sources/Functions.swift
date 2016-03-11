@@ -51,7 +51,7 @@ public func description(todo: Todo) -> String {
     
     let (id, title, subtitle, description, status) = todo
     
-    return "id: \(id), \n\ttitle: \(title), \n\tsubtitle: \(subtitle), \n\tdescription: \(description), \n\tstatus: \(status)"
+    return "id: \(id)\n\ttitle: \(title)\n\tsubtitle: \(subtitle)\n\tdescription: \(description)\n\tstatus: \(status.rawValue)"
 }
 
 // querying functions
@@ -80,7 +80,7 @@ public func pluck(todos: [Todo], closure: (todo: Todo) -> String) -> [String] {
     return plucked
 }
 
-func indexOf(todos: [Todo], closure: (todo: Todo) -> Bool) -> Int? {
+public func indexOf(todos: [Todo], closure: (todo: Todo) -> Bool) -> Int? {
 
     var index = -1
     var found = false
@@ -100,7 +100,7 @@ func indexOf(todos: [Todo], closure: (todo: Todo) -> Bool) -> Int? {
     return index == -1 || !found ? nil : index
 }
 
-func filter(todos: [Todo], closure: (todo: Todo) -> Bool) -> [Todo]? {
+public func filter(todos: [Todo], closure: (todo: Todo) -> Bool) -> [Todo]? {
     
     var filter = [Todo]()
     
