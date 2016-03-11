@@ -16,3 +16,23 @@
     * Delete a Todo
 */
 import Foundation
+
+initData()
+
+print("Print all your Todos (small description)")
+each(todos) { (todo, index) -> Void in
+
+    print("\t\(todo.1)")
+}
+
+print("Print a single Todo (large description)")
+each(todos) { (todo, index) -> Void in
+    
+    print("\t\(description(todo))\n")
+}
+
+print("Add a Todo")
+
+print("Update a Todo")
+
+print("Delete a Todo")

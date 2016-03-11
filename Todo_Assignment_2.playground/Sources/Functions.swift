@@ -1,5 +1,7 @@
 import Foundation
 
+// todo functions
+
 public func getTodos(closure: (todo: Todo) -> Bool) -> [Todo]? {
     
     return filter(todos, closure: closure)
@@ -16,7 +18,7 @@ public func getTodo(id: String) -> Todo? {
 
 public func createTodo(title: String, subtitle: String, description: String) -> Todo {
     
-    return (String(todos.count), title, subtitle, description)
+    return (String(todos.count), title, subtitle, description, Status.NotStarted)
 }
 
 public func addTodo(todo: Todo) -> Todo {
@@ -45,12 +47,28 @@ public func deleteTodo(id: String) -> Todo? {
     return todos.removeAtIndex(index)
 }
 
+public func description(todo: Todo) -> String {
+    
+    let (id, title, subtitle, description, status) = todo
+    
+    return "id: \(id), \n\ttitle: \(title), \n\tsubtitle: \(subtitle), \n\tdescription: \(description), \n\tstatus: \(status)"
+}
+
+// querying functions
+
 func iterator(todos: [Todo], closure: (todo: Todo) -> Void) {
     
     for var index = 0; index < todos.count; ++index {
         
         closure(todo: todos[index])
     }
+}
+
+public func each(todos: [Todo], closure: (todo: Todo, index: Int) -> Void) {
+    
+    var index = 0;
+    
+    iterator(todos) { closure(todo: $0, index: index++) }
 }
 
 public func pluck(todos: [Todo], closure: (todo: Todo) -> String) -> [String] {
