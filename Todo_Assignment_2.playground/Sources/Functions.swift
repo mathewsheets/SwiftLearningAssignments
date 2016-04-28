@@ -58,7 +58,7 @@ public func description(todo: Todo) -> String {
 
 func iterator(todos: [Todo], closure: (todo: Todo) -> Void) {
     
-    for var index = 0; index < todos.count; ++index {
+    for index in 0..<todos.count {
         
         closure(todo: todos[index])
     }
@@ -68,7 +68,12 @@ public func each(todos: [Todo], closure: (todo: Todo, index: Int) -> Void) {
     
     var index = 0;
     
-    iterator(todos) { closure(todo: $0, index: index++) }
+    iterator(todos) {
+        
+        closure(todo: $0, index: index)
+        
+        index += 1
+    }
 }
 
 public func pluck(todos: [Todo], closure: (todo: Todo) -> String) -> [String] {
@@ -93,7 +98,7 @@ public func indexOf(todos: [Todo], closure: (todo: Todo) -> Bool) -> Int? {
                 found = true
             }
 
-            index++
+            index += 1
         }
     }
 
