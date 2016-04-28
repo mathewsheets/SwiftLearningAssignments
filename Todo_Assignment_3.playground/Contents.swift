@@ -20,4 +20,17 @@
  */
 import Foundation
 
+let manager = TodoManager()
 
+let todo1 = Todo()
+todo1.id = "a0b2c9e8-7e3c-4ae1-acbc-ca763a731cc3"
+todo1.title = "Exercies 1 - 14"
+todo1.subtitle = "Exercies for SwiftLearning, 1 - 14"
+todo1.status = TodoStatus.Completed
+
+manager.addTodo(todo1)
+
+manager.each { (todo, index) in
+    
+    print("\(index + 1))\n\(todo)")
+}

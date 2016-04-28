@@ -9,8 +9,14 @@ public enum TodoStatus: String {
 
 public struct Coordinate {
 
-    public var latitude: Double?
-    public var longitude: Double?
+    public var latitude: Double
+    public var longitude: Double
+    
+    public init(latitude: Double, longitude: Double) {
+        
+        self.latitude = latitude
+        self.longitude = longitude
+    }
 }
 
 public class Person {
@@ -18,6 +24,10 @@ public class Person {
     public var id: String?
     public var first: String?
     public var middle: String?
+    
+    public init() {
+        
+    }
 }
 
 public class Todo: CustomStringConvertible {
@@ -32,9 +42,13 @@ public class Todo: CustomStringConvertible {
     public var created: NSDate?
     public var published: NSDate?
     public var updated: NSDate?
-    
+
     public var description: String {
-        
-        return id ?? ""
+
+        return "\tid: \(id ?? "")\n\ttitle: \(title ?? "")\n\tsubtitle: \(subtitle ?? "")\n\tstatus: \(status?.rawValue ?? "")"
+    }
+
+    public init() {
+
     }
 }
