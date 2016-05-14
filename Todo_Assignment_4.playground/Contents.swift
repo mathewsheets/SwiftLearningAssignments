@@ -21,3 +21,52 @@
     - Delete a Todo
  */
 import Foundation
+import XCPlayground
+
+TodoAPI.setTodoService(TodoHTTPService(host: "http://todo.eastus.cloudapp.azure.com"))
+
+//TodoAPI.getTodos({ (todos) in
+//    print(todos)
+//}) { print($0) }
+
+//TodoAPI.getTodo(6, success: { (todo) in
+//    print(todo)
+//}) { print($0) }
+
+//TodoAPI.getTodo(6, success: { (todo) in
+//    TodoAPI.deleteTodo(todo, success: {
+//        print("Deleted!")
+//    }, error: { (error) in
+//        print(error)
+//    })
+//}) { print($0) }
+
+//let todo = TodoModel()
+//todo.title = "Lunch"
+//todo.body = "Having lunch"
+//todo.priority = 3
+//
+//TodoAPI.createTodo(todo, success: { (todo) in
+//    print(todo)
+//}) { print($0) }
+
+//TodoAPI.getTodo(0, success: { (todo) in
+//    todo.priority = 3
+//
+//    TodoAPI.updateTodo(todo, success: { (todo) in
+//        print(todo)
+//    }, error: { (error) in
+//        print(error)
+//    })
+//}) { print($0) }
+
+
+
+
+
+
+
+
+
+
+XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
