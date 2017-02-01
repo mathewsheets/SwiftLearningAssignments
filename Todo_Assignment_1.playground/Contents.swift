@@ -1,5 +1,5 @@
 /*:
- * callout(Assignment): Based on Sessions 1 - 3 (Basics | DataTypes | Operators, Strings & Characters, Control Flow), create a playground that will manage your todos.
+ * callout(Assignment): Based on Sessions 1 - 3 (Basics | DataTypes | Operators, Strings | Characters | Dates, Control Flow), create a playground that will manage your todos.
  
  **You will need to:**
  - Print all your Todos (small description)
