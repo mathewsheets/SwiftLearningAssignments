@@ -28,7 +28,7 @@ todo1.title = "Exercies 1 - 14"
 todo1.subtitle = "Exercies for SwiftLearning, 1 - 14"
 todo1.status = .InProgress
 
-manager.addTodo(todo1)
+manager.add(todo: todo1)
 
 manager.each { (todo, index) in
     
@@ -42,14 +42,14 @@ manager.each { (todo, index) in
 
 todo1.status = .Completed
 
-manager.updateTodo(todo1)
+manager.update(todo: todo1)
 
 manager.each { (todo, index) in
     
     print("\(index + 1))\n\(todo)")
 }
 
-manager.deleteTodo("a0b2c9e8-7e3c-4ae1-acbc-ca763a731cc3")
+manager.delete(id: "a0b2c9e8-7e3c-4ae1-acbc-ca763a731cc3")
 
 print("--- any todos ---")
 manager.each { (todo, index) in
