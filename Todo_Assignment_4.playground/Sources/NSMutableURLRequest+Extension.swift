@@ -5,25 +5,25 @@ extension NSMutableURLRequest {
     public static func getBasicAuth(username: String, password: String) -> String {
         
         let authString = String(format: "%@:%@", username, password)
-        let authData: NSData = authString.dataUsingEncoding(NSUTF8StringEncoding)!
-        let base64authString = authData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+        let authData: NSData = authString.data(using: String.Encoding.utf8)! as NSData
+        let base64authString = authData.base64EncodedString(options: .lineLength64Characters)
         
         return base64authString
     }
     
     public func setRequestBasicAuth(username: String, password: String) {
         
-        let basicAuth = "Basic \(NSMutableURLRequest.getBasicAuth(username, password: password))"
+        let basicAuth = "Basic \(NSMutableURLRequest.getBasicAuth(username: username, password: password))"
         
         setValue(basicAuth, forHTTPHeaderField: "Authorization")
     }
     
     public func setCommonHeaders(route: TodoHTTPService.Route) {
         
-        HTTPMethod = route.method
+        httpMethod = route.method
         addValue("application/json", forHTTPHeaderField: "Content-Type")
-        setRequestBasicAuth("msheets", password: "password")
+        setRequestBasicAuth(username: "msheets", password: "password")
 
-        print("\(HTTPMethod) \(URL!.absoluteString)")
+        print("\(httpMethod) \(url!.absoluteString)")
     }
 }
