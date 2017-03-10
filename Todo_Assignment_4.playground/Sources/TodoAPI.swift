@@ -8,7 +8,7 @@ public class TodoAPI {
         TodoAPI.todoService = todoService
     }
 
-    public static func getTodos(success: (_ todos: [TodoModel]) -> Void, error:(_ error: NSError) -> Void) {
+    public static func getTodos(success: (_ todos: [TodoModel]) -> Void, error:(_ error: Error) -> Void) {
         guard let safeTodoService = todoService else {
             error(createError(message: "Missing Service", code: 2000))
             return
@@ -17,7 +17,7 @@ public class TodoAPI {
         safeTodoService.getTodos(success: success, error: error)
     }
     
-    public static func createTodo(todo: TodoModel, success: (_ todo: TodoModel) -> Void, error:(_ error: NSError) -> Void) {
+    public static func createTodo(todo: TodoModel, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void) {
         guard let safeTodoService = todoService else {
             error(createError(message: "Missing Service", code: 2000))
             return
@@ -26,7 +26,7 @@ public class TodoAPI {
         safeTodoService.createTodo(todo: todo, success: success, error: error)
     }
     
-    public static func getTodo(id: Int, success: (_ todo: TodoModel) -> Void, error:(_ error: NSError) -> Void) {
+    public static func getTodo(id: Int, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void) {
         guard let safeTodoService = todoService else {
             error(createError(message: "Missing Service", code: 2000))
             return
@@ -35,7 +35,7 @@ public class TodoAPI {
         safeTodoService.getTodo(id: id, success: success, error: error)
     }
     
-    public static func updateTodo(todo: TodoModel, success: (_ todo: TodoModel) -> Void, error:(_ error: NSError) -> Void) {
+    public static func updateTodo(todo: TodoModel, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void) {
         guard let safeTodoService = todoService else {
             error(createError(message: "Missing Service", code: 2000))
             return
@@ -44,7 +44,7 @@ public class TodoAPI {
         safeTodoService.updateTodo(todo: todo, success: success, error: error)
     }
     
-    public static func deleteTodo(todo: TodoModel, success: () -> Void, error:(_ error: NSError) -> Void) {
+    public static func deleteTodo(todo: TodoModel, success: () -> Void, error:(_ error: Error) -> Void) {
         guard let safeTodoService = todoService else {
             error(createError(message: "Missing Service", code: 2000))
             return
@@ -55,7 +55,7 @@ public class TodoAPI {
     
     private static func createError(message: String, code: Int) -> NSError {
         
-        return NSError(domain: message, code: code, userInfo: nil)
+        return Error(domain: message, code: code, userInfo: nil)
     }
     
 }

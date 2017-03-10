@@ -23,7 +23,7 @@
 import Foundation
 import XCPlayground
 
-TodoAPI.setTodoService(TodoHTTPService(host: "http://todo.eastus.cloudapp.azure.com"))
+//TodoAPI.setTodoService(TodoHTTPService(host: "http://todo.eastus.cloudapp.azure.com"))
 
 //TodoAPI.getTodos({ (todos) in
 //    print(todos)

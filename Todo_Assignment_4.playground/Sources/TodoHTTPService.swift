@@ -50,7 +50,7 @@ public class TodoHTTPService: TodoService {
         return path
     }
     
-    public func getTodos(success: (_ todos: [TodoModel]) -> Void, error: (_ error: NSError) -> Void) {
+    public func getTodos(success: @escaping (_ todos: [TodoModel]) -> Void, error: @escaping (_ error: Error) -> Void) {
 
         let task = session.dataTask(with: createRequest(route: .Gets)){ [weak self] (data, response, err) -> Void in
             guard let weakSelf = self else { return }
@@ -58,7 +58,7 @@ public class TodoHTTPService: TodoService {
                 return
             }
 
-            weakSelf.handledJSONPayload(data!, success: { (json) in
+            weakSelf.handledJSONPayload(payload: data!, success: { (json) in
 
                 if let jsonTodos = json as? [String:AnyObject] {
                     if let todoArray = jsonTodos["todos"] as? [[String:AnyObject]] {
@@ -82,7 +82,7 @@ public class TodoHTTPService: TodoService {
         task.resume()
     }
     
-    public func createTodo(todo: TodoModel, success: (todo: TodoModel) -> Void, error:(error: NSError) -> Void) {
+    public func createTodo(todo: TodoModel, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void) {
         
         let json = createRequestPayload(todo.asDictionary, error: { (err) in
             error(error: err)
@@ -98,7 +98,7 @@ public class TodoHTTPService: TodoService {
                 return
             }
             
-            weakSelf.handledJSONPayload(data!, success: { (json) in
+            weakSelf.handledJSONPayload(payload: data!, success: { (json) in
                 if let todoDictionary = json as? [String:AnyObject] {
                     success(todo: TodoModel(dictionary: todoDictionary))
                 } else {
@@ -111,7 +111,7 @@ public class TodoHTTPService: TodoService {
         task.resume()
     }
     
-    public func getTodo(id: Int, success: (todo: TodoModel) -> Void, error:(error: NSError) -> Void) {
+    public func getTodo(id: Int, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void) {
         
         let task = session.dataTaskWithRequest(createRequest(.Get, id: id)){ [weak self] (data, response, err) -> Void in
             guard let weakSelf = self else { return }
@@ -119,7 +119,7 @@ public class TodoHTTPService: TodoService {
                 return
             }
             
-            weakSelf.handledJSONPayload(data!, success: { (json) in
+            weakSelf.handledJSONPayload(payload: data!, success: { (json) in
                 if let todoMainDictionary = json as? [String:AnyObject] {
                     if let todoDictionary = todoMainDictionary["todo"] as? [String:AnyObject] {
                         success(todo: TodoModel(dictionary: todoDictionary))
@@ -134,7 +134,7 @@ public class TodoHTTPService: TodoService {
         task.resume()
     }
     
-    public func updateTodo(todo: TodoModel, success: (todo: TodoModel) -> Void, error:(error: NSError) -> Void) {
+    public func updateTodo(todo: TodoModel, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void) {
         
         let json = createRequestPayload(todo.asDictionary, error: { (err) in
             error(error: err)
@@ -150,7 +150,7 @@ public class TodoHTTPService: TodoService {
                 return
             }
             
-            weakSelf.handledJSONPayload(data!, success: { (json) in
+            weakSelf.handledJSONPayload(payload: data!, success: { (json) in
                 if let todoMainDictionary = json as? [String:AnyObject] {
                     if let todoDictionary = todoMainDictionary["todo"] as? [String:AnyObject] {
                         success(todo: TodoModel(dictionary: todoDictionary))
@@ -165,7 +165,7 @@ public class TodoHTTPService: TodoService {
         task.resume()
     }
     
-    public func deleteTodo(todo: TodoModel, success: () -> Void, error:(_ error: NSError) -> Void) {
+    public func deleteTodo(todo: TodoModel, success: () -> Void, error:(_ error: Error) -> Void) {
         
         let task = session.dataTask(with: createRequest(route: .Delete, id: todo.id!)){ [weak self] (data, response, err) -> Void in
             guard let weakSelf = self else { return }
@@ -178,6 +178,7 @@ public class TodoHTTPService: TodoService {
         task.resume()
     }
     
+    
     private func createRequest(route: Route, id: Int? = nil) -> URLRequest {
 
         let request = URLRequest(url: NSURL(string: getPath(route: route, id: id))!)
@@ -187,30 +188,30 @@ public class TodoHTTPService: TodoService {
         return request
     }
     
-    private func createRequestPayload(dictionary: [String:AnyObject], error:(error: NSError) -> Void) -> NSData? {
+    private func createRequestPayload(dictionary: [String:AnyObject], error:(_ error: Error) -> Void) -> Data? {
         do {
-            let jsonData = try JSONSerialization.dataWithJSONObject(dictionary, options: .PrettyPrinted)
+            let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
             
-            let jsonPayload = String(data: jsonData, encoding: NSUTF8StringEncoding)!
+            let jsonPayload = String(data: jsonData, encoding: String.Encoding.utf8)!
             
             print(jsonPayload)
             
-            return jsonPayload.dataUsingEncoding(NSUTF8StringEncoding)
+            return jsonPayload.data(using: String.Encoding.utf8)
             
-        } catch let err as NSError {
-            error(error: err)
+        } catch let err {
+            error(err)
         }
         
         return nil
     }
     
-    private func hasErrors(data: NSData?, response: NSURLResponse?, error: NSError?, onError: (error: NSError) -> Void) -> Bool {
+    private func hasErrors(data: Data?, response: URLResponse?, error: Error?, onError: (_ error: Error) -> Void) -> Bool {
         guard error == nil else {
-            onError(error: error!)
+            onError(error!)
             return true
         }
-        let statusCode = (response as? NSHTTPURLResponse)?.statusCode
-        guard statusCode >= 200 && statusCode < 300, let _ = data else {
+        let statusCode = (response as? HTTPURLResponse)?.statusCode
+        guard statusCode! >= 200 && statusCode < 300, let _ = data else {
             
             onError(error: createError(message: "HTTP Error", code: statusCode!))
             return true
@@ -219,22 +220,22 @@ public class TodoHTTPService: TodoService {
         return false
     }
     
-    private func handledJSONPayload(payload: NSData, success: (json: AnyObject) -> Void, error:(error: NSError) -> Void) {
+    private func handledJSONPayload(payload: Data, success: (_ json: AnyObject) -> Void, error:(_ error: Error) -> Void) {
         do {
-            if let jsonObject: AnyObject = try JSONSerialization.JSONObjectWithData(payload, options: .MutableContainers) {
+            if let jsonObject: AnyObject = try JSONSerialization.jsonObject(with: payload, options: .MutableContainers) {
 
-                success(json: jsonObject)
+                success(jsonObject)
 
             } else {
-                error(error: createError(message: "could not deserialize", code: 1100))
+                error(createError(message: "could not deserialize", code: 1100))
             }
-        } catch let err as NSError {
-            error(error: err)
+        } catch let err {
+            error(err)
         }
     }
     
-    private func createError(message: String, code: Int) -> NSError {
+    private func createError(message: String, code: Int) -> Error {
         
-        return NSError(domain: message, code: code, userInfo: nil)
+        return Error(domain: message, code: code, userInfo: nil)
     }
 }

@@ -1,6 +1,7 @@
 import Foundation
 
-extension NSMutableURLRequest {
+
+extension URLRequest {
 
     public static func getBasicAuth(username: String, password: String) -> String {
         
@@ -11,14 +12,15 @@ extension NSMutableURLRequest {
         return base64authString
     }
     
-    public func setRequestBasicAuth(username: String, password: String) {
+    public mutating func setRequestBasicAuth(username: String, password: String) {
         
-        let basicAuth = "Basic \(NSMutableURLRequest.getBasicAuth(username: username, password: password))"
-        
+        let basicAuth = "Basic \(URLRequest.getBasicAuth(username: username, password: password))"
+
         setValue(basicAuth, forHTTPHeaderField: "Authorization")
+        
     }
     
-    public func setCommonHeaders(route: TodoHTTPService.Route) {
+    public mutating func setCommonHeaders(route: TodoHTTPService.Route) {
         
         httpMethod = route.method
         addValue("application/json", forHTTPHeaderField: "Content-Type")

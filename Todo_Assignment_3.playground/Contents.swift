@@ -30,10 +30,14 @@ todo1.status = .InProgress
 
 manager.add(todo: todo1)
 
+print("---")
+
 manager.each { (todo, index) in
     
     print("\(todo.title!)")
 }
+
+print("---")
 
 manager.each { (todo, index) in
     
@@ -44,14 +48,16 @@ todo1.status = .Completed
 
 manager.update(todo: todo1)
 
+print("---")
+
 manager.each { (todo, index) in
-    
+
     print("\(index + 1))\n\(todo)")
 }
 
 manager.delete(id: "a0b2c9e8-7e3c-4ae1-acbc-ca763a731cc3")
 
-print("--- any todos ---")
+print("---")
 manager.each { (todo, index) in
     
     print("\(index + 1))\n\(todo)")

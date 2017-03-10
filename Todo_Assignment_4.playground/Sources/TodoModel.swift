@@ -30,11 +30,11 @@ public class TodoModel: CustomStringConvertible {
         
         var dictionary = [String:AnyObject]()
         
-        dictionary["id"] = id
-        dictionary["title"] = title
-        dictionary["body"] = body
-        dictionary["priority"] = priority
-        dictionary["done"] = done
+        dictionary["id"] = id as AnyObject?
+        dictionary["title"] = title as AnyObject?
+        dictionary["body"] = body as AnyObject?
+        dictionary["priority"] = priority as AnyObject?
+        dictionary["done"] = done as AnyObject?
         
         return dictionary
     }
