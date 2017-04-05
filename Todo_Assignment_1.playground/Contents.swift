@@ -29,7 +29,7 @@ var todosMirror = Mirror(reflecting: todos)
 for case let (label?, todo) in todosMirror.children {
     let todoMirror = Mirror(reflecting: todo)
     for case let (label?, value) in todoMirror.children {
-        if label == ".1" { // this is the title
+        if label == "title" { // this is the title
             print("\t\(value)")
         }
     }
@@ -44,11 +44,11 @@ for case let (label?, todo) in todosMirror.children {
         var output = ""
         for case let (label?, value) in todoMirror.children {
             switch label {
-            case ".0":
+            case "id":
                 output += "id: \(value), "
-            case ".2":
+            case "date":
                 output += "date: \(value), "
-            case ".3":
+            case "desc":
                 output += "description: \(value)"
             default:
                 break
@@ -80,7 +80,7 @@ todosMirror = Mirror(reflecting: todoPlus1)
 for case let (label?, todo) in todosMirror.children {
     let todoMirror = Mirror(reflecting: todo)
     for case let (label?, value) in todoMirror.children {
-        if label == ".1" { // this is the title
+        if label == ".1" || label == "title" { // this is the title
             print("\t\(value)")
         }
     }
