@@ -37,7 +37,7 @@ public class TodoManager {
         return todos.remove(at: index)
     }
 
-    func iterator(closure: (_ todo: Todo) -> Void) {
+    func iterator(closure: (Todo) -> Void) {
         
         for index in 0..<todos.count {
             
@@ -45,7 +45,7 @@ public class TodoManager {
         }
     }
     
-    public func each(closure: (_ todo: Todo, _ index: Int) -> Void) {
+    public func each(closure: (Todo, Int) -> Void) {
         
         var index = 0;
         
@@ -57,7 +57,7 @@ public class TodoManager {
         }
     }
     
-    public func pluck(closure: (_ todo: Todo) -> String) -> [String] {
+    public func pluck(closure: (Todo) -> String) -> [String] {
         
         var plucked = [String]()
         
@@ -66,7 +66,7 @@ public class TodoManager {
         return plucked
     }
     
-    public func indexOf(closure: (_ todo: Todo) -> Bool) -> Int? {
+    public func indexOf(closure: (Todo) -> Bool) -> Int? {
         
         var index = -1
         var found = false
@@ -86,7 +86,7 @@ public class TodoManager {
         return index == -1 || !found ? nil : index
     }
     
-    public func filter(closure: (_ todo: Todo) -> Bool) -> [Todo]? {
+    public func filter(closure: (Todo) -> Bool) -> [Todo]? {
         
         var filter = [Todo]()
         

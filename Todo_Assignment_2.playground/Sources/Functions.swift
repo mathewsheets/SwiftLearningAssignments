@@ -2,7 +2,7 @@ import Foundation
 
 // todo functions
 
-public func getTodos(closure: (_ todo: Todo) -> Bool) -> [Todo]? {
+public func getTodos(closure: (Todo) -> Bool) -> [Todo]? {
     
     return filter(todos: todos, closure: closure)
 }
@@ -56,7 +56,7 @@ public func description(todo: Todo) -> String {
 
 // querying functions
 
-func iterator(todos: [Todo], closure: (_ todo: Todo) -> Void) {
+func iterator(todos: [Todo], closure: (Todo) -> Void) {
     
     for index in 0..<todos.count {
         
@@ -64,7 +64,7 @@ func iterator(todos: [Todo], closure: (_ todo: Todo) -> Void) {
     }
 }
 
-public func each(todos: [Todo], closure: (_ todo: Todo, _ index: Int) -> Void) {
+public func each(todos: [Todo], closure: (Todo, Int) -> Void) {
     
     var index = 0;
     
@@ -76,7 +76,7 @@ public func each(todos: [Todo], closure: (_ todo: Todo, _ index: Int) -> Void) {
     }
 }
 
-public func pluck(todos: [Todo], closure: (_ todo: Todo) -> String) -> [String] {
+public func pluck(todos: [Todo], closure: (Todo) -> String) -> [String] {
     
     var plucked = [String]()
     
@@ -85,7 +85,7 @@ public func pluck(todos: [Todo], closure: (_ todo: Todo) -> String) -> [String] 
     return plucked
 }
 
-public func indexOf(todos: [Todo], closure: (_ todo: Todo) -> Bool) -> Int? {
+public func indexOf(todos: [Todo], closure: (Todo) -> Bool) -> Int? {
 
     var index = -1
     var found = false
@@ -105,7 +105,7 @@ public func indexOf(todos: [Todo], closure: (_ todo: Todo) -> Bool) -> Int? {
     return index == -1 || !found ? nil : index
 }
 
-public func filter(todos: [Todo], closure: (_ todo: Todo) -> Bool) -> [Todo]? {
+public func filter(todos: [Todo], closure: (Todo) -> Bool) -> [Todo]? {
     
     var filter = [Todo]()
     
