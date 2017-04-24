@@ -1,61 +1,50 @@
 import Foundation
 
-public class TodoAPI {
+public enum TodoApiError: Error {
+    
+    case ServiceNotSet
+    case NoData
+    case RequestError(message: String)
+    case ResponseError(message: String)
+    case Unknown(message: String)
+}
 
-    private static var todoService: TodoService?
-    public static func setTodoService(todoService: TodoService) {
-
-        TodoAPI.todoService = todoService
-    }
-
-    public static func getTodos(success: (_ todos: [TodoModel]) -> Void, error:(_ error: Error) -> Void) {
-        guard let safeTodoService = todoService else {
-            error(createError(message: "Missing Service", code: 2000))
-            return
-        }
+public class TodoApi {
+    
+    public static var todoService: TodoService?
+    
+    public static func getTodos(completion: @escaping (Handler) -> Void) throws {
         
-        safeTodoService.getTodos(success: success, error: error)
+        guard let safeTodoService = todoService else { throw TodoApiError.ServiceNotSet }
+        
+        return try safeTodoService.getTodos(completion: completion)
     }
     
-    public static func createTodo(todo: TodoModel, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void) {
-        guard let safeTodoService = todoService else {
-            error(createError(message: "Missing Service", code: 2000))
-            return
-        }
+    public static func createTodo(todo: TodoModel, completion: @escaping (Handler) -> Void) throws {
         
-        safeTodoService.createTodo(todo: todo, success: success, error: error)
+        guard let safeTodoService = todoService else { throw TodoApiError.ServiceNotSet }
+        
+        return try safeTodoService.createTodo(todo: todo, completion: completion)
     }
     
-    public static func getTodo(id: Int, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void) {
-        guard let safeTodoService = todoService else {
-            error(createError(message: "Missing Service", code: 2000))
-            return
-        }
+    public static func getTodo(id: String, completion: @escaping (Handler) -> Void) throws {
         
-        safeTodoService.getTodo(id: id, success: success, error: error)
+        guard let safeTodoService = todoService else { throw TodoApiError.ServiceNotSet }
+        
+        return try safeTodoService.getTodo(id: id, completion: completion)
     }
     
-    public static func updateTodo(todo: TodoModel, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void) {
-        guard let safeTodoService = todoService else {
-            error(createError(message: "Missing Service", code: 2000))
-            return
-        }
+    public static func updateTodo(todo: TodoModel, completion: @escaping (Handler) -> Void) throws {
         
-        safeTodoService.updateTodo(todo: todo, success: success, error: error)
+        guard let safeTodoService = todoService else { throw TodoApiError.ServiceNotSet }
+        
+        return try safeTodoService.updateTodo(todo: todo, completion: completion)
     }
     
-    public static func deleteTodo(todo: TodoModel, success: () -> Void, error:(_ error: Error) -> Void) {
-        guard let safeTodoService = todoService else {
-            error(createError(message: "Missing Service", code: 2000))
-            return
-        }
+    public static func deleteTodo(id: String, completion: @escaping (Handler) -> Void) throws {
         
-        safeTodoService.deleteTodo(todo: todo, success: success, error: error)
-    }
-    
-    private static func createError(message: String, code: Int) -> NSError {
+        guard let safeTodoService = todoService else { throw TodoApiError.ServiceNotSet }
         
-        return Error(domain: message, code: code, userInfo: nil)
+        return try safeTodoService.deleteTodo(id: id, completion: completion)
     }
-    
 }

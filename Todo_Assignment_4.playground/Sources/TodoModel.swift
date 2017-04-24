@@ -2,7 +2,7 @@ import Foundation
 
 public class TodoModel: CustomStringConvertible {
     
-    public var id: Int?
+    public var id: String?
     public var title: String?
     public var body: String?
     public var priority: Int?
@@ -14,19 +14,19 @@ public class TodoModel: CustomStringConvertible {
     
     public init(dictionary: [String:AnyObject]) {
         
-        id = dictionary["id"] as? Int
+        id = dictionary["id"] as? String
         title = dictionary["title"] as? String
         body = dictionary["body"] as? String
         priority = dictionary["priority"] as? Int
         done = dictionary["done"] as? Bool
     }
-
+    
     public var description: String {
-
-        return "id: \(id ?? -1), title: \(title ?? ""), body: \(body ?? ""), priority: \(priority ?? -1), done: \(done ?? false)"
+        
+        return "[id: \(id ?? ""), title: \(title ?? ""), body: \(body ?? ""), priority: \(priority ?? -1), done: \(done ?? false)]"
     }
     
-    var asDictionary: [String:AnyObject] {
+    public var asDictionary: [String:AnyObject] {
         
         var dictionary = [String:AnyObject]()
         
@@ -38,15 +38,16 @@ public class TodoModel: CustomStringConvertible {
         
         return dictionary
     }
-    
 }
 
-public func ==(lhs: TodoModel, rhs: TodoModel) -> Bool {
+extension TodoModel: Equatable {
     
-    return lhs.description == rhs.description
+    public static func ==(lhs: TodoModel, rhs: TodoModel) -> Bool {
+        
+        return lhs.description == rhs.description
+    }
+    
 }
-
-extension TodoModel: Equatable {}
 
 extension TodoModel: Hashable {
     

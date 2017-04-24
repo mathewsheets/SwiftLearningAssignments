@@ -21,52 +21,19 @@
     - Delete a Todo
  */
 import Foundation
-import XCPlayground
+import PlaygroundSupport
 
-//TodoAPI.setTodoService(TodoHTTPService(host: "http://todo.eastus.cloudapp.azure.com"))
+PlaygroundPage.current.needsIndefiniteExecution = true
+URLCache.shared = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
 
-//TodoAPI.getTodos({ (todos) in
-//    print(todos)
-//}) { print($0) }
+TodoApi.todoService = TodoHTTPService(host: "http://cscc-todos.getsandbox.com")
 
-//TodoAPI.getTodo(6, success: { (todo) in
-//    print(todo)
-//}) { print($0) }
-
-//TodoAPI.getTodo(6, success: { (todo) in
-//    TodoAPI.deleteTodo(todo, success: {
-//        print("Deleted!")
-//    }, error: { (error) in
-//        print(error)
-//    })
-//}) { print($0) }
-
-//let todo = TodoModel()
-//todo.title = "Lunch"
-//todo.body = "Having lunch"
-//todo.priority = 3
-//
-//TodoAPI.createTodo(todo, success: { (todo) in
-//    print(todo)
-//}) { print($0) }
-
-//TodoAPI.getTodo(0, success: { (todo) in
-//    todo.priority = 3
-//
-//    TodoAPI.updateTodo(todo, success: { (todo) in
-//        print(todo)
-//    }, error: { (error) in
-//        print(error)
-//    })
-//}) { print($0) }
-
-
-
-
-
-
-
-
-
-
-XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
+try! TodoApi.getTodos { (completion: Handler) in
+    do {
+        let todos = try completion() as! [TodoModel]
+        
+        print(todos.asDictionary)
+    } catch  {
+        print("Error info: \(error)")
+    }
+}

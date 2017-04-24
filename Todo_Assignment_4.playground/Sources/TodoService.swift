@@ -1,15 +1,16 @@
 import Foundation
 
+public typealias Handler = () throws -> Any
+
 public protocol TodoService {
-
-    func getTodos(success: (_ todos: [TodoModel]) -> Void, error:(_ error: Error) -> Void)
     
-    func createTodo(todo: TodoModel, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void)
+    func getTodos(completion: @escaping (Handler) -> Void) throws
     
-    func getTodo(id: Int, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void)
+    func createTodo(todo: TodoModel, completion: @escaping (Handler) -> Void) throws
     
-    func updateTodo(todo: TodoModel, success: (_ todo: TodoModel) -> Void, error:(_ error: Error) -> Void)
+    func getTodo(id: String, completion: @escaping (Handler) -> Void) throws
     
-    func deleteTodo(todo: TodoModel, success: () -> Void, error:(_ error: Error) -> Void)
-
+    func updateTodo(todo: TodoModel, completion: @escaping (Handler) -> Void) throws
+    
+    func deleteTodo(id: String, completion: @escaping (Handler) -> Void) throws
 }
