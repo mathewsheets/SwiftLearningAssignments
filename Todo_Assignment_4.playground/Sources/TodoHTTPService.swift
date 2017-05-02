@@ -170,11 +170,11 @@ public class TodoHTTPService: TodoService {
         
         let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
         
-        let jsonPayload = String(data: jsonData, encoding: String.Encoding.utf8)!
+        let jsonPayload = String(data: jsonData, encoding: .utf8)!
         
         print(jsonPayload)
         
-        return jsonPayload.data(using: String.Encoding.utf8)
+        return jsonPayload.data(using: .utf8)
     }
     
     private func handledJSONPayload(payload: Data) throws -> Any {
