@@ -45,7 +45,7 @@ public class TodoHTTPService: TodoService {
         return "\(host)\(TodoHTTPService.todoPath)\(idPortion)"
     }
     
-    public func getTodos(completion: @escaping (Handler) -> Void) throws {
+    public func getTodos(completion: @escaping (HandlerTodos) -> Void) throws {
         
         session.dataTask(with: createRequest(operation: .Index)) { [weak self] (data, response, error) in
             
@@ -71,7 +71,7 @@ public class TodoHTTPService: TodoService {
         }.resume()
     }
     
-    public func createTodo(todo: TodoModel, completion: @escaping (Handler) -> Void) throws {
+    public func createTodo(todo: TodoModel, completion: @escaping (HandlerTodo) -> Void) throws {
         
         var request = createRequest(operation: .Create)
         request.httpBody = try createRequestPayload(dictionary: todo.asDictionary)
@@ -82,22 +82,20 @@ public class TodoHTTPService: TodoService {
             
             completion() {
                 
-                var todo: TodoModel? = nil
-                
                 try weakSelf.checkForErrors(data: data, response: response, error: error)
                 let json = try weakSelf.handledJSONPayload(payload: data!)
                 
                 if let jsonTodo = json as? [String : AnyObject] {
                     
-                    todo = TodoModel(dictionary: jsonTodo)
+                    return TodoModel(dictionary: jsonTodo)
                 }
                 
-                return todo
+                return nil
             }
         }.resume()
     }
     
-    public func getTodo(id: String, completion: @escaping (Handler) -> Void) throws {
+    public func getTodo(id: String, completion: @escaping (HandlerTodo) -> Void) throws {
         
         session.dataTask(with: createRequest(operation: .Get, id: id)) { [weak self] (data, response, error) in
             
@@ -105,22 +103,20 @@ public class TodoHTTPService: TodoService {
             
             completion() {
                 
-                var todo: TodoModel? = nil
-                
                 try weakSelf.checkForErrors(data: data, response: response, error: error)
                 let json = try weakSelf.handledJSONPayload(payload: data!)
                 
                 if let jsonTodo = json as? [String : AnyObject] {
                     
-                    todo = TodoModel(dictionary: jsonTodo)
+                    return TodoModel(dictionary: jsonTodo)
                 }
                 
-                return todo
+                return nil
             }
         }.resume()
     }
     
-    public func updateTodo(todo: TodoModel, completion: @escaping (Handler) -> Void) throws {
+    public func updateTodo(todo: TodoModel, completion: @escaping (HandlerVoid) -> Void) throws {
         
         var request = createRequest(operation: .Update, id: todo.id!)
         request.httpBody = try createRequestPayload(dictionary: todo.asDictionary)
@@ -136,7 +132,7 @@ public class TodoHTTPService: TodoService {
         }.resume()
     }
     
-    public func deleteTodo(id: String, completion: @escaping (Handler) -> Void) throws {
+    public func deleteTodo(id: String, completion: @escaping (HandlerVoid) -> Void) throws {
         
         session.dataTask(with: createRequest(operation: .Delete, id: id)) { [weak self] (data, response, error) in
             

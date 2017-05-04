@@ -28,9 +28,9 @@ class TodoApiTests: XCTestCase {
     func testGetTodos() {
         let expect = expectation(description: "Index")
 
-        try! TodoApi.getTodos { (completion: Handler) in
+        try! TodoApi.getTodos { (completion: HandlerTodos) in
             do {
-                let todos = try completion() as! [TodoModel]
+                let todos = try completion()
 
                 print(todos)
                 XCTAssertNotNil(todos)
@@ -52,17 +52,16 @@ class TodoApiTests: XCTestCase {
         let expect = expectation(description: "Create")
         
         let todo = TodoModel()
-        todo.id = "127f8153-7f4b-4c6e-872b-f910c21c1a7e"
         todo.title = "Complete Assignment 4"
         todo.body = "Assignment 4 is due May 10"
         todo.priority = 2
         todo.done = false
         
-        try! TodoApi.createTodo(todo: todo) { (completion: Handler) in
+        try! TodoApi.createTodo(todo: todo) { (completion: HandlerTodo) in
             do {
-                let todo = try completion() as! TodoModel
+                let todo = try completion()
                 
-                print(todo)
+                print(todo!)
                 XCTAssertNotNil(todo)
                 
                 expect.fulfill()
@@ -81,11 +80,11 @@ class TodoApiTests: XCTestCase {
     func testGetTodo() {
         let expect = expectation(description: "Get")
         
-        try! TodoApi.getTodo(id: "127f8153-7f4b-4c6e-872b-f910c21c1a7e") { (completion: Handler) in
+        try! TodoApi.getTodo(id: "b1e45f2a-d2ef-4565-b307-987f34e46f2b") { (completion: HandlerTodo) in
             do {
-                let todo = try completion() as! TodoModel
+                let todo = try completion()
                 
-                print(todo)
+                print(todo!)
                 XCTAssertNotNil(todo)
                 
                 expect.fulfill()
@@ -104,13 +103,13 @@ class TodoApiTests: XCTestCase {
     func testUpdateTodo() {
         let expect = expectation(description: "Update")
 
-        try! TodoApi.getTodo(id: "127f8153-7f4b-4c6e-872b-f910c21c1a7e") { (completion: Handler) in
+        try! TodoApi.getTodo(id: "b1e45f2a-d2ef-4565-b307-987f34e46f2b") { (completion: HandlerTodo) in
             do {
-                let todo = try completion() as! TodoModel
+                let todo = try completion()
 
-                todo.done = false
+                todo!.done = false
 
-                try! TodoApi.updateTodo(todo: todo) { (completion: Handler) in
+                try! TodoApi.updateTodo(todo: todo!) { (completion: HandlerVoid) in
                     do {
                         try completion()
                         
@@ -134,7 +133,7 @@ class TodoApiTests: XCTestCase {
     func testDeleteTodo() {
         let expect = expectation(description: "Delete")
         
-        try! TodoApi.deleteTodo(id: "127f8153-7f4b-4c6e-872b-f910c21c1a7e") { (completion: Handler) in
+        try! TodoApi.deleteTodo(id: "b1e45f2a-d2ef-4565-b307-987f34e46f2b") { (completion: HandlerVoid) in
             do {
                 try completion()
                 

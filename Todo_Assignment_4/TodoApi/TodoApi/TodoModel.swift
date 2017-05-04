@@ -20,9 +20,9 @@ public class TodoModel: CustomStringConvertible {
         priority = dictionary["priority"] as? Int
         done = dictionary["done"] as? Bool
     }
-
+    
     public var description: String {
-
+        
         return "[id: \(id ?? ""), title: \(title ?? ""), body: \(body ?? ""), priority: \(priority ?? -1), done: \(done ?? false)]"
     }
     
@@ -41,12 +41,12 @@ public class TodoModel: CustomStringConvertible {
 }
 
 extension TodoModel: Equatable {
-
+    
     public static func ==(lhs: TodoModel, rhs: TodoModel) -> Bool {
         
         return lhs.description == rhs.description
     }
-
+    
 }
 
 extension TodoModel: Hashable {

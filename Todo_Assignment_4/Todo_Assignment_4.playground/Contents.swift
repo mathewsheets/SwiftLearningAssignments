@@ -29,9 +29,9 @@ URLCache.shared = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
 
 TodoApi.todoService = TodoHTTPService(host: "http://cscc-todos.getsandbox.com")
 
-try! TodoApi.getTodos { (completion: Handler) in
+try! TodoApi.getTodos { (completion: HandlerTodos) in
     do {
-        let todos = try completion() as! [TodoModel]
+        let todos = try completion()
         
         print(todos.asDictionary)
     } catch  {
