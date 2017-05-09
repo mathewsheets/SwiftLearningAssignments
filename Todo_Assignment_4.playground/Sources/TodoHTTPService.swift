@@ -150,7 +150,7 @@ public class TodoHTTPService: TodoService {
         if let error = error { throw error }
         guard data != nil else { throw TodoApiError.NoData }
         let statusCode = (response as? HTTPURLResponse)?.statusCode
-        guard statusCode! >= 200, statusCode! < 300 else { throw TodoApiError.ResponseError(message: "response code: \(statusCode!)")}
+        guard statusCode! >= 200, statusCode! < 300 else { throw TodoApiError.ResponseError(message: "response code: \(statusCode!)") }
     }
     
     private func createRequest(operation: Operation, id: String? = nil) -> URLRequest {

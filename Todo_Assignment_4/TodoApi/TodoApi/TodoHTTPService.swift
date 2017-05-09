@@ -68,7 +68,7 @@ public class TodoHTTPService: TodoService {
                 
                 return todos
             }
-            }.resume()
+        }.resume()
     }
     
     public func createTodo(todo: TodoModel, completion: @escaping (HandlerTodo) -> Void) throws {
@@ -92,7 +92,7 @@ public class TodoHTTPService: TodoService {
                 
                 return nil
             }
-            }.resume()
+        }.resume()
     }
     
     public func getTodo(id: String, completion: @escaping (HandlerTodo) -> Void) throws {
@@ -113,7 +113,7 @@ public class TodoHTTPService: TodoService {
                 
                 return nil
             }
-            }.resume()
+        }.resume()
     }
     
     public func updateTodo(todo: TodoModel, completion: @escaping (HandlerVoid) -> Void) throws {
@@ -129,7 +129,7 @@ public class TodoHTTPService: TodoService {
                 
                 try weakSelf.checkForErrors(data: data, response: response, error: error)
             }
-            }.resume()
+        }.resume()
     }
     
     public func deleteTodo(id: String, completion: @escaping (HandlerVoid) -> Void) throws {
@@ -142,17 +142,18 @@ public class TodoHTTPService: TodoService {
                 
                 try weakSelf.checkForErrors(data: data, response: response, error: error)
             }
-            }.resume()
+        }.resume()
     }
     
     private func checkForErrors(data: Data?, response: URLResponse?, error: Error?) throws {
-        
+
         if let error = error { throw error }
         guard data != nil else { throw TodoApiError.NoData }
+
         let statusCode = (response as? HTTPURLResponse)?.statusCode
-        guard statusCode! >= 200, statusCode! < 300 else { throw TodoApiError.ResponseError(message: "response code: \(statusCode!)")}
+        guard statusCode! >= 200, statusCode! < 300 else { throw TodoApiError.ResponseError(message: "response code: \(statusCode!)") }
     }
-    
+
     private func createRequest(operation: Operation, id: String? = nil) -> URLRequest {
         
         var request = URLRequest(url: URL(string: getPath(operation: operation, id: id))!)
