@@ -28,12 +28,71 @@ URLCache.shared = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
 
 TodoApi.todoService = TodoHTTPService(host: "http://cscc-todos.getsandbox.com")
 
-try! TodoApi.getTodos { (completion: HandlerTodos) in
-    do {
-        let todos = try completion()
-        
-        print(todos.asDictionary)
-    } catch  {
-        print("Error info: \(error)")
-    }
-}
+print("get all todos")
+//try! TodoApi.getTodos { (completion: HandlerTodos) in
+//    do {
+//        let todos = try completion()
+//        
+//        print(todos)
+//    } catch  {
+//        print("Error info: \(error)")
+//    }
+//}
+
+print("create a todo")
+//let todo = TodoModel()
+//todo.title = "Complete Assignment 4"
+//todo.body = "Assignment 4 is due May 10"
+//todo.priority = 2
+//todo.done = false
+//
+//try! TodoApi.createTodo(todo: todo) { (completion: HandlerTodo) in
+//    do {
+//        let todo = try completion()
+//        
+//        print(todo!)
+//    } catch  {
+//        print("Error info: \(error)")
+//    }
+//}
+
+print("get a single todo")
+//try! TodoApi.getTodo(id: "4e96e3af-c7fb-4d18-bc15-99fb6a82365b") { (completion: HandlerTodo) in
+//    do {
+//        let todo = try completion()
+//        
+//        print(todo!)
+//    } catch  {
+//        print("Error info: \(error)")
+//    }
+//}
+
+print("update a todo")
+//try! TodoApi.getTodo(id: "4e96e3af-c7fb-4d18-bc15-99fb6a82365b") { (completion: HandlerTodo) in
+//    do {
+//        let todo = try completion()
+//        
+//        todo!.done = true
+//        
+//        try! TodoApi.updateTodo(todo: todo!) { (completion: HandlerVoid) in
+//            do {
+//                try completion()
+//                
+//            } catch  {
+//                print("Error info: \(error)")
+//            }
+//        }
+//    } catch  {
+//        print("Error info: \(error)")
+//    }
+//}
+
+print("delete a todo")
+//try! TodoApi.deleteTodo(id: "4e96e3af-c7fb-4d18-bc15-99fb6a82365b") { (completion: HandlerVoid) in
+//    do {
+//        try completion()
+//        
+//    } catch  {
+//        print("Error info: \(error)")
+//    }
+//}
