@@ -32,7 +32,7 @@ print("get all todos")
 //try! TodoApi.getTodos { (completion: HandlerTodos) in
 //    do {
 //        let todos = try completion()
-//        
+//
 //        print(todos)
 //    } catch  {
 //        print("Error info: \(error)")
